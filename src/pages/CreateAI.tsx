@@ -4,20 +4,22 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, Wand2, Download, Share2, Settings, Zap } from 'lucide-react';
+import { Sparkles, Wand2, Download, Share2, Settings, Zap, Upload, X } from 'lucide-react';
 import { Navigation } from '@/components/Navigation';
 
 export const CreateAI = () => {
   const [prompt, setPrompt] = useState('');
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [filePreview, setFilePreview] = useState<string | null>(null);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
 
   const handleGenerate = async () => {
-    if (!prompt.trim()) return;
+    if (!prompt.trim() && !uploadedFile) return;
     
     setIsGenerating(true);
-    // Simulate AI generation
+    // Simulate AI generation with both text prompt and uploaded file
     setTimeout(() => {
       setGeneratedImage('https://picsum.photos/512/512?random=' + Math.random());
       setIsGenerating(false);
@@ -33,6 +35,29 @@ export const CreateAI = () => {
       setIsMinting(false);
       // Show success message
     }, 2000);
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const isValidType = file.type.startsWith('image/') || file.type.startsWith('video/');
+      if (!isValidType) {
+        alert('Please upload an image or video file');
+        return;
+      }
+      
+      setUploadedFile(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setFilePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeFile = () => {
+    setUploadedFile(null);
+    setFilePreview(null);
   };
 
   const presetPrompts = [
@@ -99,11 +124,67 @@ export const CreateAI = () => {
                   </div>
                 </div>
 
+                <div>
+                  <label className="text-sm font-medium mb-2 block">
+                    Upload Image/Video (Optional)
+                  </label>
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-2">
+                      <Button variant="outline" className="flex-1" asChild>
+                        <label className="cursor-pointer">
+                          <Upload className="w-4 h-4 mr-2" />
+                          Upload File
+                          <input
+                            type="file"
+                            accept="image/*,video/*"
+                            onChange={handleFileUpload}
+                            className="hidden"
+                          />
+                        </label>
+                      </Button>
+                    </div>
+                    
+                    {filePreview && (
+                      <div className="relative">
+                        <div className="border border-border/50 rounded-lg p-3 bg-muted/30">
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-sm font-medium">
+                              {uploadedFile?.name}
+                            </span>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={removeFile}
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </div>
+                          <div className="aspect-video bg-muted rounded overflow-hidden">
+                            {uploadedFile?.type.startsWith('image/') ? (
+                              <img 
+                                src={filePreview} 
+                                alt="Uploaded file" 
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <video 
+                                src={filePreview} 
+                                className="w-full h-full object-cover"
+                                controls
+                              />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <div className="flex space-x-2">
                   <Button 
                     variant="hero" 
                     onClick={handleGenerate}
-                    disabled={!prompt.trim() || isGenerating}
+                    disabled={(!prompt.trim() && !uploadedFile) || isGenerating}
                     className="flex-1"
                   >
                     {isGenerating ? (
