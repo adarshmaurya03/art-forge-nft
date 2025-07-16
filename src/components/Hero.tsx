@@ -57,35 +57,41 @@ export const Hero = () => {
 
         {/* Feature Cards */}
         <div className="animate-fade-in grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto" style={{ animationDelay: '0.6s' }}>
-          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 border border-border/50 hover:shadow-card transition-all duration-300 hover:scale-105">
-            <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4 mx-auto">
-              <Zap className="w-6 h-6 text-white" />
+          <Link to="/ai-generation">
+            <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 border border-border/50 hover:shadow-card transition-all duration-300 hover:scale-105 cursor-pointer">
+              <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4 mx-auto">
+                <Zap className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">AI-Powered Creation</h3>
+              <p className="text-muted-foreground">
+                Generate unique digital art using advanced AI algorithms
+              </p>
             </div>
-            <h3 className="text-lg font-semibold mb-2">AI-Powered Creation</h3>
-            <p className="text-muted-foreground">
-              Generate unique digital art using advanced AI algorithms
-            </p>
-          </div>
+          </Link>
 
-          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 border border-border/50 hover:shadow-card transition-all duration-300 hover:scale-105">
-            <div className="w-12 h-12 bg-gradient-accent rounded-lg flex items-center justify-center mb-4 mx-auto">
-              <Shield className="w-6 h-6 text-white" />
+          <Link to="/secure-blockchain">
+            <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 border border-border/50 hover:shadow-card transition-all duration-300 hover:scale-105 cursor-pointer">
+              <div className="w-12 h-12 bg-gradient-accent rounded-lg flex items-center justify-center mb-4 mx-auto">
+                <Shield className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">Secure Blockchain</h3>
+              <p className="text-muted-foreground">
+                Mint and trade NFTs with verified ownership on the blockchain
+              </p>
             </div>
-            <h3 className="text-lg font-semibold mb-2">Secure Blockchain</h3>
-            <p className="text-muted-foreground">
-              Mint and trade NFTs with verified ownership on the blockchain
-            </p>
-          </div>
+          </Link>
 
-          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 border border-border/50 hover:shadow-card transition-all duration-300 hover:scale-105">
-            <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4 mx-auto">
-              <Rocket className="w-6 h-6 text-white" />
+          <Link to="/instant-marketplace">
+            <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 border border-border/50 hover:shadow-card transition-all duration-300 hover:scale-105 cursor-pointer">
+              <div className="w-12 h-12 bg-gradient-primary rounded-lg flex items-center justify-center mb-4 mx-auto">
+                <Rocket className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">Instant Marketplace</h3>
+              <p className="text-muted-foreground">
+                List and sell your creations instantly to a global audience
+              </p>
             </div>
-            <h3 className="text-lg font-semibold mb-2">Instant Marketplace</h3>
-            <p className="text-muted-foreground">
-              List and sell your creations instantly to a global audience
-            </p>
-          </div>
+          </Link>
         </div>
       </div>
     </section>

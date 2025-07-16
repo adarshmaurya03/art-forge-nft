@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Sparkles, Wallet, User, ShoppingBag } from 'lucide-react';
+import { Menu, X, Sparkles, Wallet, User, ShoppingBag, Settings } from 'lucide-react';
+import { useWallet } from '@/context/WalletContext';
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { isConnected, address, balance, connectWallet } = useWallet();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -49,16 +51,37 @@ export const Navigation = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <Button variant="ghost" size="icon">
-              <ShoppingBag className="w-5 h-5" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <User className="w-5 h-5" />
-            </Button>
-            <Button variant="hero" size="sm">
-              <Wallet className="w-4 h-4 mr-2" />
-              Connect Wallet
-            </Button>
+            <Link to="/marketplace">
+              <Button variant="ghost" size="icon">
+                <ShoppingBag className="w-5 h-5" />
+              </Button>
+            </Link>
+            <Link to="/profile">
+              <Button variant="ghost" size="icon">
+                <User className="w-5 h-5" />
+              </Button>
+            </Link>
+            <Link to="/settings">
+              <Button variant="ghost" size="icon">
+                <Settings className="w-5 h-5" />
+              </Button>
+            </Link>
+            {isConnected ? (
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-muted-foreground">
+                  {balance.toFixed(2)} ETH
+                </span>
+                <Button variant="hero" size="sm">
+                  <Wallet className="w-4 h-4 mr-2" />
+                  {address?.substring(0, 6)}...{address?.substring(address.length - 4)}
+                </Button>
+              </div>
+            ) : (
+              <Button variant="hero" size="sm" onClick={connectWallet}>
+                <Wallet className="w-4 h-4 mr-2" />
+                Connect Wallet
+              </Button>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -92,10 +115,22 @@ export const Navigation = () => {
               </Link>
             ))}
             <div className="px-3 py-2">
-              <Button variant="hero" size="sm" className="w-full">
-                <Wallet className="w-4 h-4 mr-2" />
-                Connect Wallet
-              </Button>
+              {isConnected ? (
+                <div className="space-y-2">
+                  <div className="text-sm text-muted-foreground text-center">
+                    {balance.toFixed(2)} ETH
+                  </div>
+                  <Button variant="hero" size="sm" className="w-full">
+                    <Wallet className="w-4 h-4 mr-2" />
+                    {address?.substring(0, 6)}...{address?.substring(address.length - 4)}
+                  </Button>
+                </div>
+              ) : (
+                <Button variant="hero" size="sm" className="w-full" onClick={connectWallet}>
+                  <Wallet className="w-4 h-4 mr-2" />
+                  Connect Wallet
+                </Button>
+              )}
             </div>
           </div>
         </div>

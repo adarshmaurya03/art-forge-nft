@@ -7,6 +7,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { User, Settings, Share2, Heart, Eye, TrendingUp, Zap, Plus } from 'lucide-react';
 import { Navigation } from '@/components/Navigation';
 import { NFTCard } from '@/components/NFTCard';
+import { Link } from 'react-router-dom';
 
 export const Profile = () => {
   const [activeTab, setActiveTab] = useState('created');
@@ -108,17 +109,21 @@ export const Profile = () => {
                     <Badge variant="secondary">Verified</Badge>
                   </div>
                   <div className="flex space-x-4 justify-center md:justify-start">
-                    <Button variant="hero">
-                      <Plus className="w-4 h-4 mr-2" />
-                      Create NFT
-                    </Button>
+                    <Link to="/create">
+                      <Button variant="hero">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Create NFT
+                      </Button>
+                    </Link>
                     <Button variant="outline">
                       <Share2 className="w-4 h-4 mr-2" />
                       Share
                     </Button>
-                    <Button variant="outline" size="icon">
-                      <Settings className="w-4 h-4" />
-                    </Button>
+                    <Link to="/settings">
+                      <Button variant="outline" size="icon">
+                        <Settings className="w-4 h-4" />
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </div>
